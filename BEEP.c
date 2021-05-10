@@ -1,28 +1,28 @@
 #include "stm32h10x.h" 
 #include "sys.h"
 #include "delay.h"
-// ·äÃùÆ÷½ÓÔÚÈý¼«¹Ü¼¯µç¼«£¬Èý¼«¹Ü»ù¼«ÓëPB8ÏàÁ¬£¬¸ßµçÆ½ÓÐÐ§ 
+// èœ‚é¸£å™¨æŽ¥åœ¨ä¸‰æžç®¡é›†ç”µæžï¼Œä¸‰æžç®¡åŸºæžä¸ŽPB8ç›¸è¿žï¼Œé«˜ç”µå¹³æœ‰æ•ˆ 
 void BEEP_Init(void)
 {
-	RCC->APB2ENR|=1<<3;//GPIOBÊ±ÖÓÊ¹ÄÜ
+	RCC->APB2ENR|=1<<3;//GPIOBæ—¶é’Ÿä½¿èƒ½
 	
 	GPIOB->CRH &= oxFFFFFFF0;
-	GPIOB->CRH |= ox00000003; //ÅäÖÃ¹¤×÷Ä£Ê½
+	GPIOB->CRH |= ox00000003; //é…ç½®å·¥ä½œæ¨¡å¼
 	
-	GPIOB->ODR &= oxFFFFFEFF;//³õÊ¼Êä³öµÍµçÆ½
-	// GPIOB->BRR|=1<<8;//ÀûÓÃBRR¼Ä´æÆ÷³õÊ¼»¯ 
-	//PBout(8)=0;//ÀûÓÃµØÖ·Ó³Éä¶ÔÓ¦µÄbitÎ»³õÊ¼»¯£¬PBoutÊÇºê¶¨ÒåµØÖ·½âÒýÓÃ 
+	GPIOB->ODR &= oxFFFFFEFF;//åˆå§‹è¾“å‡ºä½Žç”µå¹³
+	// GPIOB->BRR|=1<<8;//åˆ©ç”¨BRRå¯„å­˜å™¨åˆå§‹åŒ– 
+	//PBout(8)=0;//åˆ©ç”¨åœ°å€æ˜ å°„å¯¹åº”çš„bitä½åˆå§‹åŒ–ï¼ŒPBoutæ˜¯å®å®šä¹‰åœ°å€è§£å¼•ç”¨ 
 	 
 }
 int main()
 {
-	delay_init(10);//·À¶¶ 
+	delay_init(10);//é˜²æŠ– 
 	BEEP_Init();
 	while(1)
 	{
 		GPIOB->BSRR|=1<<8;
 		delay_ms(1000);
-		GPIOB->BSR|=1<<8;
+		GPIOB->BR|=1<<8;
 	}
 	return 0;
 }
