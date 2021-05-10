@@ -22,7 +22,7 @@ int main()
 	{
 		GPIOB->BSRR|=1<<8;
 		delay_ms(1000);
-		GPIOB->BR|=1<<8;
+		GPIOB->BRR|=1<<8;
 	}
 	return 0;
 }
