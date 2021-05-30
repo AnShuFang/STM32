@@ -1,18 +1,31 @@
-#include "stm32f10x.h" //LEDµÆ³õÊ¼»¯º¯Êý-¼Ä´æÆ÷±à³Ì 
+#include "stm32f10x.h" //LEDç¯åˆå§‹åŒ–å‡½æ•°-å¯„å­˜å™¨ç¼–ç¨‹ 
 
  void LED_Init()
 	{
-		RCC->APB2ENR|=1<<3 £»//GPIOBÊ±ÖÓÊ¹ÄÜ£» 
-		RCC->APB2ENR|=1<<6£» //GPIOEÊ±ÖÓÊ¹ÄÜ£»
-		
-		GPIOB->CRL&=oxFF0FFFFF;
-		GPIOB->CRL|=ox00300000;//ÅäÖÃGPIOB_PIN5Òý½Å¹¤×÷Ä£Ê½£»
-		GPIOB->ODR|=1<<5;//³õÊ¼PIN_5Òý½ÅÊä³ö¸ßµçÆ½£»
-		
-		GPIOE->CRL&=oxFF0FFFFF;
-		GPIOE->CRL|=ox00300000;//ÅäÖÃGPIOE_PIN5Òý½Å¹¤×÷Ä£Ê½£»
-		GPIOE->ODR|=1<<5;//³õÊ¼PIN_5Òý½ÅÊä³ö¸ßµçÆ½£»
-			 
-	}
+		//RCC->APB2ENR|=1<<3;//GPIOBæ—¶é’Ÿä½¿èƒ½ï¼› 
+		//RCC->APB2ENR|=1<<6; //GPIOEæ—¶é’Ÿä½¿èƒ½ï¼›
 	
+		//GPIOB->CRL&=0xFF0FFFFF;
+		//GPIOB->CRL|=0x00300000;//é…ç½®GPIOB_PIN5å¼•è„šå·¥ä½œæ¨¡å¼ï¼›
+		//GPIOB->ODR|=1<<5;//åˆå§‹PIN_5å¼•è„šè¾“å‡ºé«˜ç”µå¹³ï¼›
+		
+		//GPIOE->CRL&=0xFF0FFFFF;
+		//GPIOE->CRL|=0x00300000;//é…ç½®GPIOE_PIN5å¼•è„šå·¥ä½œæ¨¡å¼ï¼›
+	  //GPIOE->ODR|=1<<5;         //åˆå§‹PIN_5å¼•è„šè¾“å‡ºé«˜ç”µå¹³ï¼›
+		
+		GPIO_InitTypeDef GPIO_Struct;
+		
+		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB|RCC_APB2Periph_GPIOE,ENABLE);//æ“ä½œæ—¶é’Ÿå¯„å­˜å™¨APB2ENRï¼Œä½¿èƒ½GPIOç«¯å£æ—¶é’Ÿ
+		
+		GPIO_Struct.GPIO_Mode=GPIO_Mode_Out_PP;
+		GPIO_Struct.GPIO_Pin=GPIO_Pin_5;
+		GPIO_Struct.GPIO_Speed=GPIO_Speed_50MHz;//æ“ä½œCRå¯„å­˜å™¨ï¼Œè®¾ç½®GPIOå·¥ä½œæ¨¡å¼
+		
+	  GPIO_Init(GPIOB,&GPIO_Struct);//GPIOB_5åˆå§‹åŒ–
+		GPIO_Init(GPIOE,&GPIO_Struct);//GPIOE_5åˆå§‹åŒ–
+		
+		GPIO_SetBits(GPIOB,GPIO_Pin_5);//åˆå§‹ç½®1
+		GPIO_SetBits(GPIOE,GPIO_Pin_5);//åŒä¸Š
+		
+	}
 
