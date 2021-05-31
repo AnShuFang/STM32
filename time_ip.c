@@ -10,14 +10,14 @@ void Time_Init(u16 count,u16 psc)
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2,ENABLE);
 	
   TIM_Struct.TIM_ClockDivision=TIM_CKD_DIV1;
-	TIM_Struct.TIM_CounterMode=TIM_CounterMode_Up;//²Ù×÷CR¼Ä´æÆ÷£¬ÉèÖÃÄ£Ê½
-	TIM_Struct.TIM_Period=count;//²Ù×÷RLR¼Ä´æÆ÷£¬ÉèÖÃ¼ÆÊıÆ÷Öµ£¬16Î»
-	TIM_Struct.TIM_Prescaler=psc;//²Ù×÷PR¼Ä´æÆ÷,ÉèÖÃ·ÖÆµÏµÊı£¬16Î»
-	//²»ÓÃ£¬¿É²»Ğ´.TIM_RepetitionCounter=
-	TIM_TimeBaseInit(TIM2, &TIM_Struct);//³õÊ¼»¯¶¨Ê±Æ÷2
+	TIM_Struct.TIM_CounterMode=TIM_CounterMode_Up;//æ“ä½œCRå¯„å­˜å™¨ï¼Œè®¾ç½®æ¨¡å¼
+	TIM_Struct.TIM_Period=count;//æ“ä½œARRRå¯„å­˜å™¨ï¼Œè®¾ç½®è®¡æ•°å™¨å€¼ï¼Œ16ä½
+	TIM_Struct.TIM_Prescaler=psc;//æ“ä½œPRå¯„å­˜å™¨,è®¾ç½®åˆ†é¢‘ç³»æ•°ï¼Œ16ä½
+	//ä¸ç”¨ï¼Œå¯ä¸å†™.TIM_RepetitionCounter=
+	TIM_TimeBaseInit(TIM2, &TIM_Struct);//åˆå§‹åŒ–å®šæ—¶å™¨2
 	
 	TIM_ITConfig(TIM2,TIM_IT_Update, ENABLE);
-//NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);ÖĞ¶ÏÊ¹ÓÃÇ°Òª·Ö×é
+//NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);ä¸­æ–­ä½¿ç”¨å‰è¦åˆ†ç»„
 
 	
 	 NVIC_Struct.NVIC_IRQChannel=TIM2_IRQn;
@@ -25,18 +25,18 @@ void Time_Init(u16 count,u16 psc)
 	 NVIC_Struct.NVIC_IRQChannelPreemptionPriority=0;
 	 NVIC_Struct.NVIC_IRQChannelSubPriority=3;
 
- NVIC_Init(&NVIC_Struct);//ÖĞ¶Ï³õÊ¼»¯
- TIM_Cmd(TIM2, ENABLE);//Ê¹ÄÜ¶¨Ê±Æ÷2
+ NVIC_Init(&NVIC_Struct);//ä¸­æ–­åˆå§‹åŒ–
+ TIM_Cmd(TIM2, ENABLE);//ä½¿èƒ½å®šæ—¶å™¨2
 	}
 
 	void TIM3_IRQHandler(void)
 	{
-		if(TIM_GetITStatus(TIM2,TIM_IT_Update)!=RESET)//ÅĞ¶ÏSR¼Ä´æÆ÷ÊÇ·ñÂú×ãÖĞ¶ÏÌõ¼ş
+		if(TIM_GetITStatus(TIM2,TIM_IT_Update)!=RESET)//åˆ¤æ–­SRå¯„å­˜å™¨æ˜¯å¦æ»¡è¶³ä¸­æ–­æ¡ä»¶
 		{
 			PBout(5)=!PBout(5);
 			PEout(5)=!PEout(5);
 		}
 		
-		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);//Èí¼şÇå³ıÖĞ¶Ï±êÖ¾Î»
+		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);//è½¯ä»¶æ¸…é™¤ä¸­æ–­æ ‡å¿—ä½
 	}
 	
